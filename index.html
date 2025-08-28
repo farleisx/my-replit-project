@@ -7,10 +7,12 @@
 <style>
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
   header { background:#222; color:#fff; padding:20px; text-align:center; }
+  header h1 { margin:0; }
+  header p { margin:5px 0 0; font-size:16px; }
   section { padding:20px; max-width:600px; margin:auto; background:#fff; margin-top:20px; border-radius:8px; }
-  h2 { margin-bottom:15px; }
+  h2 { margin-bottom:15px; text-align:center; }
   input, select, textarea { width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc; box-sizing:border-box; }
-  button { padding:10px 20px; background:#222; color:#fff; border:none; border-radius:5px; cursor:pointer; width:100%; font-size:16px; }
+  button { padding:12px; background:#222; color:#fff; border:none; border-radius:5px; cursor:pointer; width:100%; font-size:16px; }
   button:hover { background:#555; }
 </style>
 </head>
@@ -24,7 +26,7 @@
 <section>
   <h2>קבע/י תור עכשיו</h2>
   
-  <form action="https://script.google.com/macros/s/AKfycbzEo17025QUuTfxaINn1Fr1RVUEO-yhHBs-g5xvErldBTNLJd0Gp0pgpzDyVkYQVd3HIw/exec" method="POST">
+  <form id="bookingForm">
     <input type="text" name="name" placeholder="שם מלא" required>
     <input type="tel" name="phone" placeholder="טלפון" required>
     <select name="service" required>
@@ -47,6 +49,34 @@
     <button type="submit">שלח/י הזמנה</button>
   </form>
 </section>
+
+<script>
+const form = document.getElementById('bookingForm');
+form.addEventListener('submit', e => {
+  e.preventDefault(); // prevent page reload
+
+  const data = new FormData(form);
+  const params = new URLSearchParams();
+  for (const pair of data) { params.append(pair[0], pair[1]); }
+
+  fetch('https://script.google.com/macros/s/AKfycbzEo17025QUuTfxaINn1Fr1RVUEO-yhHBs-g5xvErldBTNLJd0Gp0pgpzDyVkYQVd3HIw/exec', {
+    method: 'POST',
+    body: params
+  })
+  .then(res => res.text())
+  .then(text => {
+    if(text.includes("TIME_TAKEN")) {
+      alert("הזמן הזה כבר תפוס. אנא בחר/י שעה אחרת.");
+    } else {
+      alert("התור נקבע בהצלחה! תודה.");
+    }
+    window.location.href = "https://farleisx.github.io"; // replace with your main page URL
+  })
+  .catch(err => {
+    alert("שגיאה בשליחת התור. נסה/י שוב.");
+  });
+});
+</script>
 
 </body>
 </html>
