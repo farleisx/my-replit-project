@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ברבריה מקצועית</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
+  header { background:#222; color:#fff; padding:20px; text-align:center; }
+  section { padding:20px; max-width:600px; margin:auto; background:#fff; margin-top:20px; border-radius:8px; }
+  input, select, textarea { width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc; }
+  button { padding:10px 20px; background:#222; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  button:hover { background:#555; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ברבריה [שם העסק]</h1>
+  <p>חיתוך וגילוח מקצועי - שירות מהיר ומדויק</p>
+</header>
+
+<section>
+  <h2>קבע/י תור עכשיו</h2>
+  <form id="bookingForm">
+    <input type="text" id="name" placeholder="שם מלא" required>
+    <input type="tel" id="phone" placeholder="טלפון" required>
+    <select id="service" required>
+      <option value="">בחר/י שירות</option>
+      <option value="חיתוך שיער">חיתוך שיער</option>
+      <option value="גילוח">גילוח</option>
+      <option value="תספורת ילדים">תספורת ילדים</option>
+      <option value="עיצוב זקן">עיצוב זקן</option>
+    </select>
+    <select id="timeSlot" required>
+      <option value="">בחר/י שעה</option>
+      <option value="10:00">10:00</option>
+      <option value="11:00">11:00</option>
+      <option value="12:00">12:00</option>
+      <option value="13:00">13:00</option>
+      <option value="14:00">14:00</option>
+      <option value="15:00">15:00</option>
+    </select>
+    <textarea id="message" placeholder="הערות נוספות"></textarea>
+    <button type="submit">שלח/י הזמנה</button>
+  </form>
+  <p id="response" style="margin-top:10px;color:green;"></p>
+</section>
+
+<script>
+const form = document.getElementById('bookingForm');
+const response = document.getElementById('response');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    service: document.getElementById('service').value,
+    timeSlot: document.getElementById('timeSlot').value,
+    message: document.getElementById('message').value
+  };
+
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbySCO4OufP8o43uoVQS60FgG9iPASUqDOaKFl6kOShJmCrr2oeWzJTNJa7FaLwValzB/exec';
+
+  try {
+    const res = await fetch(scriptURL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const result = await res.json();
+    if(result.success){
+      response.style.color = 'green';
+      response.textContent = 'התור נקבע בהצלחה!';
+      form.reset();
+    } else {
+      response.style.color = 'red';
+      response.textContent = 'הזמן הזה כבר תפוס. אנא בחר/י שעה אחרת.';
+    }
+  } catch(err){
+    response.style.color = 'red';
+    response.textContent = 'שגיאה בשליחה. נסה שוב.';
+  }
+});
+</script>
+
+</body>
+</html>
