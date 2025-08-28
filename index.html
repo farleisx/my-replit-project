@@ -8,10 +8,10 @@
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
   header { background:#222; color:#fff; padding:20px; text-align:center; }
   section { padding:20px; max-width:600px; margin:auto; background:#fff; margin-top:20px; border-radius:8px; }
-  input, select, textarea { width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc; }
-  button { padding:10px 20px; background:#222; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  h2 { margin-bottom:15px; }
+  input, select, textarea { width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc; box-sizing:border-box; }
+  button { padding:10px 20px; background:#222; color:#fff; border:none; border-radius:5px; cursor:pointer; width:100%; font-size:16px; }
   button:hover { background:#555; }
-  #response { margin-top:10px; color:green; }
 </style>
 </head>
 <body>
@@ -24,7 +24,7 @@
 <section>
   <h2>קבע/י תור עכשיו</h2>
   
-  <form id="bookingForm" action="https://script.google.com/macros/s/AKfycbzEo17025QUuTfxaINn1Fr1RVUEO-yhHBs-g5xvErldBTNLJd0Gp0pgpzDyVkYQVd3HIw/exec" method="POST" target="hidden_iframe">
+  <form action="https://script.google.com/macros/s/AKfycbzEo17025QUuTfxaINn1Fr1RVUEO-yhHBs-g5xvErldBTNLJd0Gp0pgpzDyVkYQVd3HIw/exec" method="POST">
     <input type="text" name="name" placeholder="שם מלא" required>
     <input type="tel" name="phone" placeholder="טלפון" required>
     <select name="service" required>
@@ -46,21 +46,7 @@
     <textarea name="message" placeholder="הערות נוספות"></textarea>
     <button type="submit">שלח/י הזמנה</button>
   </form>
-
-  <iframe name="hidden_iframe" style="display:none;"></iframe>
-
-  <p id="response"></p>
 </section>
-
-<script>
-  const form = document.getElementById('bookingForm');
-  const response = document.getElementById('response');
-
-  form.addEventListener('submit', () => {
-    response.style.color = 'green';
-    response.textContent = 'התור נקבע בהצלחה! תודה.';
-  });
-</script>
 
 </body>
 </html>
